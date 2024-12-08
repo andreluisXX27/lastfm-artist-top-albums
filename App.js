@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, FlatList} from 'react-native';
+import { useBatteryLevel } from 'expo-battery';
 
 const API_KEY = "5d2df7527e3aae5e2ce3b250fe868046"
 const URL = "https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist="
@@ -9,6 +10,7 @@ const PARAMS = `&api_key=${API_KEY}&format=json&limit=5`
 export default function App() {
     const [artistInput, setArtistInput] = useState('');
     const [artistData, setArtistData] = useState([]);
+    const batterylevel = useBatteryLevel();
 
     const fetchArtist = async () => {
         const response = await fetch(URL + artistInput + PARAMS)
@@ -18,7 +20,8 @@ export default function App() {
     }
     
     return (
-        <View className="flex-1 bg-gradient-to-t from-purple-600 to-blue-600 justify-center p-8 gap-2">
+        <View className="flex-1 bg-white justify-center p-8 gap-2">
+            <Text>Porcentagem da bateria: {batterylevel}</Text>
             <Text className="text-2xl font-bold">Procure um artista</Text>
             <TextInput 
                 value={artistInput}
